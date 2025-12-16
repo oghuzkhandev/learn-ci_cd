@@ -21,3 +21,8 @@ jobs:
       - name: Run tests with coverage
         run: go test -cover ./...
 
+      - name: Formatting check
+        run: |
+            go fmt ./...
+            git diff --exit-code
+
