@@ -1,4 +1,5 @@
-# learn-cicd-starter (Notely)
+![CI](https://github.com/oghuzkhandev/learn-ci_cd/actions/workflows/ci.yml/badge.svg)
+# Learn CI & CD with Practices (Notely)
 
 Oguzhan Dogan's version of Boot.dev's Notely app.
 
