@@ -23,3 +23,16 @@
             chmod +x ./scripts/buildprod.sh
             ./scripts/buildprod.sh
 
+        - name: Authenticate to Google Cloud
+          uses: google-github-actions/auth@v2
+          with:
+            credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+        - name: Set up Cloud SDK
+          uses: google-github-actions/setup-gcloud@v3
+
+        - name: Build & Push Image with Cloud Build
+          run: |
+            gcloud builds submit \
+              --tag us-central1-docker.pkg.dev/notely-481516/notely-ar-repo/notely:latest \
+              .
