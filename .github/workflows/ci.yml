@@ -63,7 +63,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Authenticate to Google Cloud Platform
-      - id:
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
@@ -77,16 +77,7 @@ jobs:
       - name: Build & Push Docker Image
         run: |
           gcloud builds submit \
-          --tag us-central1-docker.pkg.dev/notely-481516/notely-ar-repo/notely:latest .
-
-  
-
-
-
-
-
-
-
-
+          --tag us-central1-docker.pkg.dev/notely-481516/notely-ar-repo/notely:latest \
+          .
 
 
