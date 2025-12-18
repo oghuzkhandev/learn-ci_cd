@@ -41,7 +41,7 @@
           run: |
             gcloud run deploy notely \
             --image us-central1-docker.pkg.dev/notely-481516/notely-ar-repo/notely:latest \
-            --region un-central1 \
-            --allow-unauthhenticated \
-            --project notely-481516
+            --region us-central1 \
+            --allow-unauthenticated \
+            --project notely-481516 \
             --max-instances=4
