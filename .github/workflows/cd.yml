@@ -9,33 +9,53 @@
       name: Deploy
       runs-on: ubuntu-latest
 
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       steps:
         - name: Check out code
           uses: actions/checkout@v4
+
 
         - name: Set up Go
           uses: actions/setup-go@v5
           with:
             go-version: "1.25.1"
 
+
+        - name: Install goose
+          run: |
+            go install github.com/pressly/goose/v3/cmd/goose@latest
+            echo "$HOME/go/bin" >> $GITHUB_PATH
+
+
         - name: Build production binary
           run : |
             chmod +x ./scripts/buildprod.sh
             ./scripts/buildprod.sh
+
 
         - name: Authenticate to Google Cloud
           uses: google-github-actions/auth@v2
           with:
             credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
+
         - name: Set up Cloud SDK
           uses: google-github-actions/setup-gcloud@v3
+
 
         - name: Build & Push Image with Cloud Build
           run: |
             gcloud builds submit \
               --tag us-central1-docker.pkg.dev/notely-481516/notely-ar-repo/notely:latest \
               .
+
+        - name: Run database migrations
+          run: |
+            chmod +x ./scripts/migrateup.sh
+            ./scripts/migrateup.sh
+
 
         - name: Deploy to Cloud Run
           run: |
